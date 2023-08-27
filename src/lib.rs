@@ -35,11 +35,14 @@
 #![no_std]
 #![forbid(unsafe_code)]
 
-extern crate no_std_compat as std;
-use std::prelude::v1::*;
-use std::iter::FusedIterator;
-use std::borrow::Cow;
-use std::slice;
+#[cfg_attr(test, macro_use)]
+extern crate alloc;
+
+use alloc::borrow::Cow;
+use alloc::vec::Vec;
+
+use core::iter::FusedIterator;
+use core::slice;
 
 fn find_subregion(sup: &[u8], sub: &[u8]) -> Option<usize> {
     // [T]::windows panics if size is empty, but we know all slices start with empty slice
