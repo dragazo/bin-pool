@@ -106,7 +106,7 @@ impl BinPool {
 
         // look for any data entry that value is a subregion of - if we find one we can use that as data source
         for (i, top) in self.data.iter().enumerate() {
-            if let Some(start) = find_subregion(top, &*value) {
+            if let Some(start) = find_subregion(top, &value) {
                 self.slices.push(SliceInfo { src: i, start, length: value.len() });
                 return ret;
             }
@@ -115,7 +115,7 @@ impl BinPool {
         // if that didn't work, look for any data entry that is a subregion of value (i.e. containment the other way)
         for i in 0..self.data.len() {
             // if we found one, we can replace it with value
-            if let Some(start) = find_subregion(&*value, &self.data[i]) {
+            if let Some(start) = find_subregion(&value, &self.data[i]) {
                 // replace it with value and update the starting position of any slices that referenced it
                 self.data[i] = value.into_owned();
                 for slice in self.slices.iter_mut() {
